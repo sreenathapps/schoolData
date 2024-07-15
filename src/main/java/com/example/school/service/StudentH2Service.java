@@ -11,6 +11,7 @@
 
 // Write your code here
 package com.example.school.service;
+
 import com.example.school.repository.*;
 import com.example.school.model.*;
 import java.util.ArrayList;
@@ -40,19 +41,20 @@ public class StudentH2Service implements StudentRepository {
     @Override
     public Student getStudentById(int studentId) {
         try {
-            Student student = db.queryForObject("SELECT * FROM STUDENT WHERE STUDENTID = ?", new StudentRowMapper(), studentId);
+            Student student = db.queryForObject("SELECT * FROM STUDENT WHERE STUDENTID = ?", new StudentRowMapper(),
+                    studentId);
             return student;
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public Student updateStudent(int studentId, Student student) {
-        if(student.getStudentName() != null) {
-            db.update("UPDATE STUDENT SET STUDENTNAME = ? WHERE STUDENTID = ? ",student.getStudentName(),studentId);
+        if (student.getStudentName() != null) {
+            db.update("UPDATE STUDENT SET STUDENTNAME = ? WHERE STUDENTID = ? ", student.getStudentName(), studentId);
         }
-        if(student.getStandard() != null) {
+        if (student.getStandard() != 0) {
             db.update("UPDATE STUDENT SET STANDARD = ? WHERE STUDENTID = ? ", student.getStandard(), studentId);
         }
         if (student.getGender() != null) {
@@ -63,8 +65,10 @@ public class StudentH2Service implements StudentRepository {
 
     @Override
     public Student addStudent(Student student) {
-        db.update("INSERT INTO STUDENT( STUDENTNAME, GENDER, STANDARD) VALUES (? , ? , ?)", student.getStudentName(), student.getGender(), student.getStandard());
-        Student savedStudent = db.queryForObject("SELECT * FROM STUDENT WHERE STUDENTNAME = ? AND STANDARD = ? ", new StudentRowMapper(), student.getStudentName(), student.getStandard());
+        db.update("INSERT INTO STUDENT( STUDENTNAME, GENDER, STANDARD) VALUES (? , ? , ?)", student.getStudentName(),
+                student.getGender(), student.getStandard());
+        Student savedStudent = db.queryForObject("SELECT * FROM STUDENT WHERE STUDENTNAME = ? AND STANDARD = ? ",
+                new StudentRowMapper(), student.getStudentName(), student.getStandard());
         return savedStudent;
     }
 
@@ -72,6 +76,16 @@ public class StudentH2Service implements StudentRepository {
     public void deleteStudent(int studentId) {
         db.update("DELETE FROM STUDENT WHERE STUDENTID = ? ", studentId);
         throw new ResponseStatusException(HttpStatus.OK);
+    }
+
+    @Override
+    public String addStudents(List<Student> studentList) {
+        int count = 0;
+        for (Student s : studentList) {
+            addStudent(s);
+            count++;
+        }
+        return "" + count;
     }
 
 }

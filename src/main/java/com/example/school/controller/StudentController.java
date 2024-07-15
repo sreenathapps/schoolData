@@ -7,6 +7,7 @@
  *
  */
 package com.example.school.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -17,9 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-
-
 
 /**
  * StudentController
@@ -54,6 +52,10 @@ public class StudentController {
     public void deleteStudent(@PathVariable("studentId") int studentId) {
         studentService.deleteStudent(studentId);
     }
-    
-    
+
+    @PostMapping("/students/bulk")
+    public String addStudents(@RequestBody List<Student> studentList) {
+        return studentService.addStudents(studentList);
+    }
+
 }
