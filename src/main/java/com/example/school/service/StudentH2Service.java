@@ -82,10 +82,15 @@ public class StudentH2Service implements StudentRepository {
     public String addStudents(List<Student> studentList) {
         int count = 0;
         for (Student s : studentList) {
-            addStudent(s);
-            count++;
+            try {
+                addStudent(s);
+                count++;
+            } catch (Exception e) {
+                // Log the error or take some other action
+                System.out.println("Error adding student: " + e.getMessage());
+            }
         }
-        return "" + count;
+        return ""+ count;
     }
 
 }
