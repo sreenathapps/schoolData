@@ -54,7 +54,7 @@ public class StudentController {
     }
 
     @PostMapping("/students/bulk")
-    public String addStudents(@RequestBody List<Student> studentList) {
+    public String addStudents(@RequestBody ArrayList<Student> studentList) {
         return studentService.addStudents(studentList);
     }
 

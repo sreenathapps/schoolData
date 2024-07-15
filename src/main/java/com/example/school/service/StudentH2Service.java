@@ -79,7 +79,7 @@ public class StudentH2Service implements StudentRepository {
     }
 
     @Override
-    public String addStudents(List<Student> studentList) {
+    public String addStudents(ArrayList<Student> studentList) {
         int count = 0;
         for (Student s : studentList) {
             try {
@@ -90,7 +90,7 @@ public class StudentH2Service implements StudentRepository {
                 System.out.println("Error adding student: " + e.getMessage());
             }
         }
-        return ""+ count;
+        return "Successfully added "+ count + " students";
     }
 
 }
